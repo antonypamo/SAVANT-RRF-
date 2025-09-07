@@ -6,8 +6,11 @@ from transformers import pipeline
 chatbot = pipeline("text-generation", model="distilgpt2")
 
 def responder(mensaje, historial):
+    # Genera respuesta
     respuesta = chatbot(mensaje, max_length=150, num_return_sequences=1, do_sample=True)[0]["generated_text"]
-    return respuesta, historial + [(mensaje, respuesta)]
+    # Asegurar formato correcto [(user, bot), ...]
+    historial = historial + [(mensaje, respuesta)]
+    return historial, historial
 
 with gr.Blocks() as demo:
     gr.Markdown("# 🤖 SAVANT-RRF- Chat AGI Experimental")
@@ -16,6 +19,6 @@ with gr.Blocks() as demo:
     clear = gr.Button("🧹 Limpiar Chat")
 
     msg.submit(responder, [msg, chatbot_ui], [chatbot_ui, chatbot_ui])
-    clear.click(lambda: None, None, chatbot_ui, queue=False)
+    clear.click(lambda: [], None, chatbot_ui, queue=False)
 
-demo.launch(share=True)  # 👈 share=True para que abra URL pública en Colab
+demo.launch(share=True)  # 👈 share=True para URL pública
