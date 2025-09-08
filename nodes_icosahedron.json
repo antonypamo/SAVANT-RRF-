@@ -1,0 +1,91 @@
+{
+  "description": "icosahedron nodes (unit sphere approx)",
+  "nodes": [
+    {
+      "id": 0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 1.0
+    },
+    {
+      "id": 1,
+      "x": 0.894,
+      "y": 0.0,
+      "z": 0.447
+    },
+    {
+      "id": 2,
+      "x": 0.276,
+      "y": 0.851,
+      "z": 0.447
+    },
+    {
+      "id": 3,
+      "x": -0.724,
+      "y": 0.526,
+      "z": 0.447
+    },
+    {
+      "id": 4,
+      "x": -0.724,
+      "y": -0.526,
+      "z": 0.447
+    },
+    {
+      "id": 5,
+      "x": 0.276,
+      "y": -0.851,
+      "z": 0.447
+    }
+  ]
+}[
+  {
+    "id": 1,
+    "nombre": "Hamiltoniano discreto",
+    "tipo": "Hamiltoniano",
+    "ecuacion": "\\hat{H}_{\\text{RRF}} = \\sum_{i,j} \\psi_i^\\dagger \\, \\gamma^\\mu \\, D_{\\mu}^{ij} \\, \\psi_j + \\sum_i V_{\\text{log}}(r_i) \\, \\psi_i^\\dagger \\psi_i",
+    "descripcion": "Hamiltoniano de Dirac en red icosaédrica con corrección gravitatoria logarítmica.",
+    "componentes": ["psi_i", "gamma^mu", "D_mu^{ij}", "V_log", "r_i", "alpha"]
+  },
+  {
+    "id": 2,
+    "nombre": "Acción efectiva discreta",
+    "tipo": "Acción",
+    "ecuacion": "S_{\\text{eff}} = \\sum_{\\text{faces}} \\frac{1}{8\\pi G} \\, \\epsilon_f A_f + \\sum_i \\psi_i^\\dagger (i \\gamma^\\mu D_\\mu - m) \\psi_i + \\sum_{\\text{edges}} F_{\\mu\\nu} F^{\\mu\\nu}",
+    "descripcion": "Acción cuántica que combina gravedad discreta (Regge), espinores relativistas y campos gauge.",
+    "componentes": ["epsilon_f", "A_f", "psi_i", "F_mu_nu", "G", "m"]
+  },
+  {
+    "id": 3,
+    "nombre": "Corrección logarítmica",
+    "tipo": "Potencial",
+    "ecuacion": "V_{\\text{log}}(r) = -\\frac{G m_1 m_2}{r} \\left( 1 + \\alpha \\ln \\frac{r}{r_0} \\right)",
+    "descripcion": "Potencial gravitatorio con corrección cuántica que regulariza singularidades y escala.",
+    "componentes": ["G", "m1", "m2", "r", "alpha", "r0"]
+  },
+  {
+    "id": 4,
+    "nombre": "Acoplamiento gauge",
+    "tipo": "Gauge",
+    "ecuacion": "D_\\mu \\psi_i = \\partial_\\mu \\psi_i + i g_1 A_\\mu^1 \\psi_i + i g_2 \\vec{A}_\\mu^2 \\cdot \\vec{\\tau} \\psi_i + i g_3 \\vec{A}_\\mu^3 \\cdot \\vec{\\lambda} \\psi_i",
+    "descripcion": "Covariantización discreta en red icosaédrica para U(1), SU(2) y SU(3).",
+    "componentes": ["g1", "g2", "g3", "A_mu", "tau", "lambda"]
+  },
+  {
+    "id": 5,
+    "nombre": "Autovalores resonantes",
+    "tipo": "Espectro/Resonancia",
+    "ecuacion": "\\hat{H}_{\\text{RRF}} \\, \\psi_n = E_n \\, \\psi_n, \\\\quad \\\\omega_n = f(E_n)",
+    "descripcion": "Relación entre autovalores discretos y frecuencias de resonancia asociadas a protocolos cognitivos.",
+    "componentes": ["E_n", "psi_n", "omega_n", "f(E_n)"]
+  },
+  {
+    "id": 6,
+    "nombre": "Métrica emergente",
+    "tipo": "Geometría",
+    "ecuacion": "g_{\\mu\\nu}^{\\text{eff}}(x) = \\eta_{\\mu\\nu} + \\sum_i \\frac{\\partial^2 V_{\\text{log}}(r_i)}{\\partial x^\\mu \\partial x^\\nu}",
+    "descripcion": "Métrica efectiva inducida por la superposición de potenciales logarítmicos.",
+    "componentes": ["eta_mu_nu", "V_log", "x_mu", "x_nu"]
+  }
+]
+
