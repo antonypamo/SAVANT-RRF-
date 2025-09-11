@@ -1,5 +1,4 @@
-
-#!/usr/bin/env python3
+!/usr/bin/env python3
 """SAVANT-RRF demo entrypoint
 
 Runs a small interactive demo: maps a text to a nodal index and simulates resonance.
