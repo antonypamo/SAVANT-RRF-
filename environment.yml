@@ -1,7 +1,7 @@
 name: savant-env
 channels:
   - conda-forge
-  - pytorch
+  - defaults
 dependencies:
   - python=3.10
   - numpy
@@ -9,10 +9,5 @@ dependencies:
   - torch
   - faiss-cpu=1.11.0
   - gitpython
-  - huggingface_hub
-  - flake8
   - pytest
-  - pip
-  - pip:
-      - accelerate
-      - transformers>=4.44.0
+  - flake8
