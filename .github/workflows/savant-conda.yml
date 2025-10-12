@@ -1,77 +1,44 @@
-name: SAVANT-RRF Conda Build & Test
+name: Python Package using Conda
 
-on:
-  push:
-  pull_request:
-  workflow_dispatch:
+on: [push]
 
 jobs:
   build-linux:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 4
+      max-parallel: 5
 
     steps:
-    # 1️⃣ Checkout del repositorio
     - uses: actions/checkout@v4
 
-    # 2️⃣ Configurar Miniconda con soporte Mamba
-    - name: Set up Miniconda
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+
+    - name: Install Miniconda
       uses: conda-incubator/setup-miniconda@v3
       with:
-        python-version: 3.10
         auto-update-conda: true
-        use-mamba: true
-        activate-environment: savant-env
+        activate-environment: base
+        python-version: 3.10
+        channels: conda-forge,defaults
 
-    # 3️⃣ Cache de dependencias para acelerar builds
-    - name: Cache Conda packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.conda/pkgs
-        key: ${{ runner.os }}-conda-${{ hashFiles('environment.yml') }}
-        restore-keys: |
-          ${{ runner.os }}-conda-
-
-    # 4️⃣ Crear o actualizar entorno Conda
-    - name: Create or Update Conda Environment
+    - name: Update Conda environment
       run: |
-        if [ -f environment.yml ]; then
-          echo "🧩 Using environment.yml..."
-          mamba env update -n savant-env -f environment.yml
-        else
-          echo "⚙️ No environment.yml found, creating manually..."
-          mamba create -n savant-env python=3.10 numpy scipy torch gitpython faiss-cpu=1.11.0 pytest flake8 -y
-        fi
+        conda env update --file environment.yml --name base
 
-    # 5️⃣ Activar entorno
-    - name: Activate Conda environment
-      shell: bash -l {0}
+    - name: Install QA tools
       run: |
-        conda activate savant-env
-        conda list
+        conda install -c conda-forge flake8 pytest -y
 
-    # 6️⃣ Lint con flake8
     - name: Lint with flake8
-      shell: bash -l {0}
       run: |
-        conda activate savant-env
-        echo "🧹 Running flake8..."
+        # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 . --count --exit-zero --max-complexity=12 --max-line-length=127 --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-    # 7️⃣ Test con pytest
-    - name: Test with pytest
-      shell: bash -l {0}
+    - name: Run tests
       run: |
-        conda activate savant-env
-        echo "🧪 Running tests..."
-        pytest -v --maxfail=3 --disable-warnings
-
-    # 8️⃣ (Opcional) Subir resultados de test
-    - name: Upload Test Results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: pytest-results
-        path: ./tests/reports/
+        pytest -v
