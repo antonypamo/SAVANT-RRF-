@@ -1,0 +1,13 @@
+name: savant-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy
+  - scipy
+  - torch
+  - faiss-cpu=1.11.0
+  - gitpython
+  - pytest
+  - flake8
