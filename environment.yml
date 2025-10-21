@@ -11,3 +11,6 @@ dependencies:
   - gitpython
   - pytest
   - flake8
+  - scikit-learn
+  - sentence-transformers
+  - gradio
